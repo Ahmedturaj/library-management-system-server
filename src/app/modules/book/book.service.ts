@@ -17,4 +17,16 @@ export const createBookService = async (bookData: IBook) => {
     }
 };
 
+export const getAllBooksService=async()=>{
+    try{
+        const books = await Book.find();
+        if(!books || books.length === 0) {
+            throw new AppError(httpStatus.NOT_FOUND, "No books found");
+        }
+        return books;
+    }catch(error){
+        throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+    }
+}
+
 
