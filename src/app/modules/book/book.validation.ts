@@ -17,7 +17,7 @@ export const bookZodSchema = z.object({
   
   isbn: z
     .string("ISBN is required")
-    .regex(/^[0-9\-]+$/, { message: "ISBN must be valid" }), // simple validation
+    .regex(/^[0-9\-]+$/, { message: "ISBN must be valid" }), 
   
   description: z
     .string("Description is required")
@@ -30,5 +30,5 @@ export const bookZodSchema = z.object({
   
   available: z
     .boolean("Availability is required")
-    .optional() // default true in Mongoose handles it
+    .optional() 
 });
