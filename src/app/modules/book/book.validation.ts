@@ -25,6 +25,7 @@ export const bookZodSchema = z.object({
   
   copies: z
     .number("Copies are required")
+    .min(0, "Copies must be positive numbers")
     .int({ message: "Copies must be an integer" })
     .nonnegative({ message: "Copies cannot be negative" }),
   
