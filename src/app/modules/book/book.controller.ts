@@ -2,7 +2,7 @@ import { any } from "zod";
 import AppError from "../../error/appError";
 import catchAsync from "../../utils/catchAsycn";
 import sendResponse from "../../utils/sendResponse";
-import { createBookService, getAllBooksService } from "./book.service";
+import { createBookService, getAllBooksService, getBookByIdService } from "./book.service";
 import httpStatus from "http-status";
 import { IBookFilter } from "./book.interface";
 export const addBook = catchAsync(async (req, res) => {
@@ -31,3 +31,15 @@ export const getAllBooks = catchAsync(async (req, res) => {
         data: books,
     });
 })
+
+export const getBookById = catchAsync(async (req, res) => {
+    const { bookId } = req.params;
+
+    const book = await getBookByIdService(bookId);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Book fetched successfully",
+        data: book,
+    });
+});

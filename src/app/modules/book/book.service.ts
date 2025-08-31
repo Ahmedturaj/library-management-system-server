@@ -39,3 +39,14 @@ export const getAllBooksService = async (filter: IBookFilter) => {
 }
 
 
+export const getBookByIdService = async (bookId: string) => {
+    try {
+        const book = await Book.findById(bookId).select("-__v");
+        if (!book) {
+            throw new AppError(httpStatus.NOT_FOUND, "Book not found");
+        }
+        return book;
+    } catch (error) {
+        throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+    }
+};
