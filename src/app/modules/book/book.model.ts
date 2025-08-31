@@ -11,6 +11,7 @@ const bookSchema: Schema<IBook & Document> = new Schema({
   available: { type: Boolean, required: [true, "Availability is required"], default: true },
 }, {
   timestamps: true,
+  versionKey: false,
 });
 
 const Book = mongoose.model<IBook & Document>("Book", bookSchema);

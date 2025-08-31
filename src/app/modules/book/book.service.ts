@@ -1,5 +1,5 @@
 import AppError from "../../error/appError";
-import { IBook } from "./book.interface";
+import { IBook, IBookFilter } from "./book.interface";
 import Book from "./book.model";
 import httpStatus from "http-status";
 
@@ -11,20 +11,29 @@ export const createBookService = async (bookData: IBook) => {
         }
         const book = new Book(bookData);
         await book.save();
-        return book;
+
+        const { __v, ...data } = book.toObject();
+        return data;
     } catch (error) {
         throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
     }
 };
 
-export const getAllBooksService=async()=>{
-    try{
-        const books = await Book.find();
-        if(!books || books.length === 0) {
-            throw new AppError(httpStatus.NOT_FOUND, "No books found");
+export const getAllBooksService = async (filter: IBookFilter) => {
+    try {
+        const { genre, sort, limit } = filter;
+        const query: any = {};
+        if (genre) {
+            query.genre = genre
+        }
+        const books = await Book.find(query)
+            .sort({ createdAt: sort === "asc" ? 1 : -1 })
+            .limit(Number(limit)).select("-__v");
+        if (books.length === 0) {
+            throw new AppError(httpStatus.NO_CONTENT, "No books added yet");
         }
         return books;
-    }catch(error){
+    } catch (error) {
         throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
     }
 }

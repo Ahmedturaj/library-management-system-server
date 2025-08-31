@@ -1,4 +1,4 @@
-export interface IBook{
+export interface IBook {
     title: string;
     author: string;
     genre: string;
@@ -6,4 +6,10 @@ export interface IBook{
     description: string;
     copies: number;
     available: boolean;
+}
+
+export interface IBookFilter {
+    genre?: string;
+    sort?: "asc" | "desc";
+    limit?: string | number;
 }
