@@ -57,13 +57,13 @@ export const updateBookById = catchAsync(async (req, res) => {
     });
 });
 
-export const deleteById= catchAsync(async(req, res)=>{
-    const {bookId}= req.params;
+export const deleteById = catchAsync(async (req, res) => {
+    const { bookId } = req.params;
     const book = await deleteByIdService(bookId);
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: "Book deleted successfully",
-        data: book,
+        data: book || null,
     });
 })
