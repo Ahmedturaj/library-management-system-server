@@ -50,3 +50,16 @@ export const getBookByIdService = async (bookId: string) => {
         throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
     }
 };
+
+
+export const updateBookByIdService = async (bookId: string, bookData: Partial<IBook>) => {
+    try {
+        const book = await Book.findByIdAndUpdate(bookId, bookData, { new: true }).select("-__v");
+        if (!book) {
+            throw new AppError(httpStatus.NOT_FOUND, "Book not found");
+        }
+        return book;
+    } catch (error) {
+        throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+    }
+};
