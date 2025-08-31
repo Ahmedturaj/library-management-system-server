@@ -2,7 +2,7 @@ import { any } from "zod";
 import AppError from "../../error/appError";
 import catchAsync from "../../utils/catchAsycn";
 import sendResponse from "../../utils/sendResponse";
-import { createBookService, getAllBooksService, getBookByIdService, updateBookByIdService } from "./book.service";
+import { createBookService, deleteByIdService, getAllBooksService, getBookByIdService, updateBookByIdService } from "./book.service";
 import httpStatus from "http-status";
 import { IBookFilter } from "./book.interface";
 export const addBook = catchAsync(async (req, res) => {
@@ -56,3 +56,14 @@ export const updateBookById = catchAsync(async (req, res) => {
         data: updatedBook,
     });
 });
+
+export const deleteById= catchAsync(async(req, res)=>{
+    const {bookId}= req.params;
+    const book = await deleteByIdService(bookId);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Book deleted successfully",
+        data: book,
+    });
+})

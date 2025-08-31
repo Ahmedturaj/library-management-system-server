@@ -2,8 +2,7 @@ import { z } from "zod";
 
 export const userZodSchema = z.object({
     name: z
-        .string("Name is required",
-        )
+        .string("Name is required")
         .min(3, { message: "Name must be at least 3 characters long" })
         .max(100, { message: "Name must not exceed 100 characters" }),
 
@@ -13,8 +12,8 @@ export const userZodSchema = z.object({
 
     phone: z
         .string("Phone number is required" )
-        .regex(/^[0-9]{10,11}$/, {
-            message: "Phone number must be 10 to 11 digits",
+        .regex(/^[0-9]{10,13}$/, {
+            message: "Phone number must be 10 to 13 digits",
         }),
 
     password: z
