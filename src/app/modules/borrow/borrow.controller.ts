@@ -3,44 +3,34 @@ import {
   borrowBookService,
   borrowedBooksSummaryService,
 } from "./borrow.service";
+import sendResponse from "../../utils/sendResponse";
+import catchAsync from "../../utils/catchAsycn";
+import httpStatus from "http-status";
 
-export const borrowBook = async (req: Request, res: Response) => {
-  try {
-    const { book, quantity, dueDate } = req.body;
 
-    const borrowRecord = await borrowBookService(
-      book,
-      quantity,
-      new Date(dueDate)
-    );
 
-    return res.status(201).json({
-      success: true,
-      message: "Book borrowed successfully",
-      data: borrowRecord,
-    });
-  } catch (error: any) {
-    const statusCode = error.message.includes("not found") ? 404 : 400;
-    return res.status(statusCode).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+export const borrowBook = catchAsync(async (req, res) => {
+  const { book, quantity, dueDate } = req.body;
 
-export const borrowedBooksSummary = async (req: Request, res: Response) => {
-  try {
-    const summary = await borrowedBooksSummaryService();
+  const borrowRecord = await borrowBookService(
+    book,
+    quantity,
+    new Date(dueDate)
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Book borrowed successfully",
+    data: borrowRecord,
+  })
+});
 
-    return res.status(200).json({
-      success: true,
-      message: "Borrowed books summary retrieved successfully",
-      data: summary,
-    });
-  } catch (error: any) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+export const borrowedBooksSummary = catchAsync(async (req, res) => {
+  const summary = await borrowedBooksSummaryService();
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Borrowed books summary retrieved successfully",
+    data: summary,
+  })
+})

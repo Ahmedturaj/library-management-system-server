@@ -8,3 +8,4 @@ const borrowZodValidation = z.object({
     .int("Quantity must be an integer"),
   dueDate: z.date("Due Date is required"),
 });
+export default borrowZodValidation;
